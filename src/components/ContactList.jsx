@@ -8,7 +8,7 @@ const ContactList = () => {
   const dispatch = useDispatch();
 
   const filteredContacts = contacts.filter((contact) =>
-    contact.name.includes(filter)
+    contact.name && filter && contact.name.includes(filter)
   );
 
   const handleDeleteContact = (id) => {

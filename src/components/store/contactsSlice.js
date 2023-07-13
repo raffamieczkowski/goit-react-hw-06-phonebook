@@ -1,14 +1,24 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-export const addContact = createAsyncThunk('contacts/addContact', async (contact) => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return contact;
-});
+export const addContact = (contact) => {
+  return async (dispatch) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      dispatch(contactsSlice.actions.addContactFulfilled(contact));
+    } catch (error) {
+    }
+  };
+};
 
-export const deleteContact = createAsyncThunk('contacts/deleteContact', async (id) => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return id;
-});
+export const deleteContact = (id) => {
+  return async (dispatch) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      dispatch(contactsSlice.actions.deleteContactFulfilled(id));
+    } catch (error) {
+    }
+  };
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -17,17 +27,14 @@ const contactsSlice = createSlice({
     setFilter(state, action) {
       return action.payload;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.push(action.payload);
-      })
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        return state.filter((contact) => contact.id !== action.payload);
-      });
+    addContactFulfilled(state, action) {
+      state.push(action.payload);
+    },
+    deleteContactFulfilled(state, action) {
+      return state.filter((contact) => contact.id !== action.payload);
+    },
   },
 });
 
-export const { setFilter } = contactsSlice.actions;
+export const { setFilter, addContactFulfilled, deleteContactFulfilled } = contactsSlice.actions;
 export default contactsSlice.reducer;
