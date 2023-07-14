@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContactFulfilled } from '../components/store/contactsSlice';
+import { deleteContactFulfilled } from './store/contactsSlice';
 
 const ContactList = () => {
   const contacts = useSelector((state) => state.contacts);
@@ -8,7 +8,7 @@ const ContactList = () => {
   const dispatch = useDispatch();
 
   const filteredContacts = contacts.filter((contact) =>
-    contact.name && filter && contact.name.includes(filter)
+    contact.name && filter && contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   const handleDeleteContact = (id) => {
