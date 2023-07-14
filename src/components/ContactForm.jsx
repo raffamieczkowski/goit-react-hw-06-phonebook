@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../components/store/contactsSlice';
+import { nanoid } from 'nanoid';
+import { addContactFulfilled } from '../components/store/contactsSlice';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
@@ -9,9 +10,16 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addContact({ name, number }));
-    setName('');
-    setNumber('');
+    if (name && number) {
+      const newContact = {
+        id: nanoid(),
+        name,
+        number,
+      };
+      dispatch(addContactFulfilled(newContact));
+      setName('');
+      setNumber('');
+    }
   };
 
   return (
@@ -19,7 +27,6 @@ const ContactForm = () => {
       <input
         type="text"
         name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         placeholder="Name"
         value={name}
@@ -29,7 +36,6 @@ const ContactForm = () => {
       <input
         type="tel"
         name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         placeholder="Number"
         value={number}

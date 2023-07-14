@@ -1,25 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const addContact = (contact) => {
-  return async (dispatch) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      dispatch(contactsSlice.actions.addContactFulfilled(contact));
-    } catch (error) {
-    }
-  };
-};
-
-export const deleteContact = (id) => {
-  return async (dispatch) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      dispatch(contactsSlice.actions.deleteContactFulfilled(id));
-    } catch (error) {
-    }
-  };
-};
-
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: [],

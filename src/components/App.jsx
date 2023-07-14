@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact, deleteContact, setFilter } from './store/contactsSlice';
-
+import { addContactFulfilled, deleteContactFulfilled, setFilter } from './store/contactsSlice';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
@@ -15,7 +14,7 @@ const App = () => {
   useEffect(() => {
     const storedContacts = localStorage.getItem('contacts');
     if (storedContacts) {
-      dispatch(addContact(JSON.parse(storedContacts)));
+      dispatch(addContactFulfilled(JSON.parse(storedContacts)));
     }
   }, [dispatch]);
 
@@ -24,7 +23,15 @@ const App = () => {
   }, [contacts]);
 
   const handleAddContact = (name, number) => {
-    if (contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase())) {
+    if (!name || !number) {
+      alert('Name and number are required.');
+      return;
+    }
+
+    const lowerCaseName = name.toLowerCase();
+    const existingContact = contacts.find((contact) => contact.name.toLowerCase() === lowerCaseName);
+
+    if (existingContact) {
       alert(`"${name}" is already in contacts.`);
     } else {
       const newContact = {
@@ -32,12 +39,12 @@ const App = () => {
         name,
         number,
       };
-      dispatch(addContact(newContact));
+      dispatch(addContactFulfilled(newContact));
     }
   };
 
   const handleDeleteContact = (id) => {
-    dispatch(deleteContact(id));
+    dispatch(deleteContactFulfilled(id));
   };
 
   const handleFilterChange = (value) => {
