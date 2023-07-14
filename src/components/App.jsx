@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContactFulfilled, deleteContactFulfilled, setFilter, setContacts } from './store/contactsSlice';
+import { setContacts, addContactFulfilled, deleteContactFulfilled, setFilter } from './store/contactsSlice';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
@@ -22,25 +21,12 @@ const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-  const handleAddContact = (name, number) => {
-    if (!name || !number) {
+  const handleAddContact = (newContact) => {
+    if (!newContact.name || !newContact.number) {
       alert('Name and number are required.');
       return;
     }
-
-    const lowerCaseName = name.toLowerCase();
-    const existingContact = contacts.find((contact) => contact.name.toLowerCase() === lowerCaseName);
-
-    if (existingContact) {
-      alert(`"${name}" is already in contacts.`);
-    } else {
-      const newContact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      dispatch(addContactFulfilled(newContact));
-    }
+    dispatch(addContactFulfilled(newContact));
   };
 
   const handleDeleteContact = (id) => {

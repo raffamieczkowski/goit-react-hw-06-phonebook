@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { addContactFulfilled } from '../components/store/contactsSlice';
 
-const ContactForm = () => {
+const ContactForm = ({ addContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && number) {
-      const newContact = {
-        id: nanoid(),
-        name,
-        number,
-      };
-      dispatch(addContactFulfilled(newContact));
-      setName('');
-      setNumber('');
+    if (!name || !number) {
+      alert('Name and number are required.');
+      return;
     }
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
+    addContact(newContact);
+    setName('');
+    setNumber('');
   };
 
   return (
