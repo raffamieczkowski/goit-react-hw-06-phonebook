@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContactFulfilled, deleteContactFulfilled, setFilter } from './store/contactsSlice';
+import { addContactFulfilled, deleteContactFulfilled, setFilter, setContacts } from './store/contactsSlice';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
@@ -14,7 +14,7 @@ const App = () => {
   useEffect(() => {
     const storedContacts = localStorage.getItem('contacts');
     if (storedContacts) {
-      dispatch(addContactFulfilled(JSON.parse(storedContacts)));
+      dispatch(setContacts(JSON.parse(storedContacts)));
     }
   }, [dispatch]);
 
