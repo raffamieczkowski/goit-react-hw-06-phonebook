@@ -6,8 +6,9 @@ const ContactList = ({ contacts, filter }) => {
   const dispatch = useDispatch();
 
   const filteredContacts = contacts.filter((contact) =>
-    contact.name && filter && contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  contact.name.toLowerCase().includes(filter.toLowerCase())
+);
+
 
   const handleDeleteContact = (id) => {
     dispatch(deleteContactFulfilled(id));
